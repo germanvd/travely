@@ -1,0 +1,78 @@
+body {
+   background-color: #fcce50;
+   padding-top: 95px;
+   font-family: 'Montserrat', sans-serif;
+}
+
+h1 {
+   font-size: 3em;
+   font-weight: bold;
+}
+
+.navbar-fixed-top {
+   background-color: white;
+   height: 70px;
+}
+
+.navbar-brand {
+	font-size: 2em;
+	font-weight: bold;
+	color: black;
+	padding: 0 25px; 	
+	line-height: 70px;
+	border: none;
+}
+
+.nameImage_showPage {
+  text-align: center;
+}
+
+.thumbnails {
+   float: none;
+   margin: 0 auto;
+}
+
+.buttons_showPage {
+   float: left;
+   margin: 10px 7px 0 0;
+}
+
+.form_center {
+   text-align: center;
+}
+
+.form_center form {
+   display: inline-block;
+   width: 600px;
+   max-width: 90%;
+}
+
+.form_mainTitle {
+   text-align: center;
+   margin: 20px 0 40px 0;
+   font-weight: bold;
+}
+
+#blogDescription_showPage {
+   margin-top: 20px;
+   font-size: 1.1em;
+}
+
+#addNewButton {
+   padding-right: 25px;
+   line-height: 70px;
+}
+
+#image_showPage {
+   width: 600px;
+   max-width: 85%;
+   margin-top: 20px;
+}
+
+#signature_footer {
+   text-align: right;
+   margin-top: 20px;
+   margin-right: 10px;
+}
+
+

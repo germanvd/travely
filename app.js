@@ -4,6 +4,11 @@ var methodOverride   = require('method-override');
 var app              = express();
 var mongoose         = require('mongoose');
 var bodyParser       = require('body-parser');
+mongoose.Promise     = require('bluebird');
+
+var seedDB = require ("./seeds");
+var Comment = require ("./models/comment");
+var Blog = require ("./models/blog");
 
 app.use(methodOverride('_method'));
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -12,13 +17,7 @@ mongoose.connect('mongodb://localhost/travelBlogApp');
 app.set("view engine", "ejs");
 app.use (express.static(__dirname + "/public"));
 
-var blogSchema = new mongoose.Schema({
-   name: String,
-   image: String,
-   description: String
-});
-
-var Blog = mongoose.model ("Blog", blogSchema);
+seedDB();
 
 //ROOT ROUTE
 app.get ("/", function (req, res) {

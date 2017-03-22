@@ -8,6 +8,11 @@
    
    <p id="blogDescription_showPage"><%- foundBlog.description %></p>
    
+   <% foundBlog.comments.forEach (function(comment) { %>
+      <p><%= comment.author %></p>
+      <p><%= comment.text %></p>
+   <% }); %>
+   
    <div>
       <a class="btn btn-danger buttons_showPage" href="/blogs/<%= foundBlog._id %>/edit">Edit blog</a>
       <form method="POST" action="/blogs/<%= foundBlog._id %>?_method=DELETE">

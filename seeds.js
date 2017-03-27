@@ -30,7 +30,6 @@ function seedDB() {
         if(err) {
             console.log(err);
         } else {
-            console.log ("All blogs removed!");
             testBlogs.forEach(function(testBlog) {
                 Blog.create (testBlog, function (err, newBlog) {
                     if (err) {

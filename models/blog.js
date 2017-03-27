@@ -7,7 +7,7 @@ var blogSchema = new mongoose.Schema({
    comments: [
        {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "Post",
+            ref: "Comment",
         }
     ]
 });

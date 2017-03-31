@@ -35,14 +35,7 @@ function seedDB() {
                     if (err) {
                         console.log (err);
                     } else {
-                        Comment.create(testComment, function (err, newComment) {
-                            if(err) {
-                                console.log(err); 
-                            } else {
-                                newBlog.comments.push(newComment);
-                                newBlog.save();
-                            }
-                        });
+                        console.log ("You have seeded blogs page")
                     }
                 });
             });

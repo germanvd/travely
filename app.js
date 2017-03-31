@@ -1,14 +1,23 @@
-var express          = require('express');
-var expressSanitizer = require('express-sanitizer');
-var methodOverride   = require('method-override');
-var app              = express();
-var mongoose         = require('mongoose');
-var bodyParser       = require('body-parser');
-mongoose.Promise     = require('bluebird');
+var express                 = require('express');
+var expressSanitizer        = require('express-sanitizer');
+var methodOverride          = require('method-override');
+var app                     = express();
+var mongoose                = require('mongoose');
+var passport                = require ("passport");
+var bodyParser              = require('body-parser');
+var LocalStrategy           = require ("passport-local");
+var passportLocalMongoose   = require ("passport-local-mongoose");
+var session                 = require('express-session');
+mongoose.Promise            = require('bluebird');
 
 var seedDB = require ("./seeds");
 var Comment = require ("./models/comment");
 var Blog = require ("./models/blog");
+var User = require ("./models/user");
+
+var commentRoutes = require ("./routes/comments");
+var blogRoutes = require ("./routes/blogs");
+var indexRoutes = require ("./routes/index");
 
 app.use(methodOverride('_method'));
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -17,184 +26,26 @@ mongoose.connect('mongodb://localhost/blogApp');
 app.set("view engine", "ejs");
 app.use (express.static(__dirname + "/public"));
 
-seedDB();
+app.use(session({
+  secret: 'To bo kul travelApp!',
+  resave: false,
+  saveUninitialized: false
+}));
 
-//************
-//BLOG ROUTES
-//************
+app.use (passport.initialize());
+app.use (passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
-//ROOT ROUTE
-app.get ("/", function (req, res) {
-   res.redirect ("/blogs");
+app.use(function(req, res, next) {
+    res.locals.currentUser = req.user;
+    next();
 });
 
-//INDEX ROUTE
-app.get ("/blogs", function (req, res) {
-   Blog.find({}, function (err, blogs) {
-      if (err) {
-         console.log(err);
-      } else {
-         res.render ("blog/index", {blogs: blogs});
-      }
-   });
-});
-
-//NEW ROUTE
-app.get ("/blogs/new", function (req, res) {
-   res.render ("blog/new");
-});
-
-//CREATE ROUTE
-app.post ("/blogs", function (req, res) {
-    req.body.blog.description = req.sanitize(req.body.blog.description);
-    Blog.create (req.body.blog, function (err) {
-      if (err) {
-         console.log (err); 
-      } else {
-         res.redirect ("/blogs");
-      }
-    });
-});
-
-//SHOW ROUTE
-app.get ("/blogs/:id", function (req, res) {
-   var id = req.params.id;
-  Blog.findById (id).populate({path: "comments"}).exec(function (err, foundBlog) {
-      if(err) {
-         console.log(err);
-      } else {
-        res.render ("blog/show", {foundBlog: foundBlog});
-      }
-   });
-});
-
-//EDIT ROUTE
-app.get ("/blogs/:id/edit", function (req, res) {
-   var id = req.params.id;
-   Blog.findById(id, function (err, foundBlog) {
-      if(err) {
-         console.log(err);
-      } else {
-         res.render ("blog/edit", {foundBlog: foundBlog});
-      }
-   });
-});
-
-//UPDATE ROUTE
-app.put ("/blogs/:id", function (req, res) {
-   req.body.description = req.sanitize(req.body.description);
-   var id = req.params.id;
-   var name = req.body.name;
-   var image = req.body.image;
-   var description = req.body.description;
-   var updatedBlog = {name: name, image: image, description: description};
-   Blog.findByIdAndUpdate (id, updatedBlog, function (err) {
-      if(err) {
-         console.log(err); 
-      } else {
-         res.redirect ("/blogs/" + id);
-      }
-   });
-});
-
-//DELETE ROUTE
-app.delete ("/blogs/:id", function(req, res) {
-   var id = req.params.id;
-   Blog.findByIdAndRemove (id, function (err) {
-      if(err) {
-         console.log(err);
-      } else {
-         res.redirect ("/blogs/");
-      }
-   });
-});
-
-//**************
-//COMMENT ROUTES
-//**************
-
-
-//NEW COMMENT
-app.get ("/blogs/:id/comments/new", function (req, res) {
-    Blog.findById (req.params.id, function (err, foundBlog) {
-        if(err) {
-            console.log (err);
-        } else {
-           res.render ("comment/new", {foundBlog: foundBlog}); 
-        }
-    });
-});
-
-//CREATE COMMENT
-app.post ("/blogs/:id/comments", function (req, res) {
-    Blog.findById(req.params.id, function(err, foundBlog) {
-        if(err) {
-            console.log(err);
-        } else {
-            Comment.create (req.body, function(err, newComment) {
-                if(err) {
-                    console.log(err);
-                } else {
-                    foundBlog.comments.push(newComment);
-                    foundBlog.save();
-                    res.redirect ("/blogs/" + req.params.id);
-                }
-            });
-        }
-    });
-});
-
-//EDIT COMMENT ROUTE
-app.get ("/blogs/:id/comments/:commentId/edit", function (req, res) {
-    Blog.findById(req.params.id, function(err, foundBlog) {
-        if(err) {
-            console.log(err);
-        } else {
-            Comment.findById(req.params.commentId, function(err, foundComment) {
-                if(err) {
-                    console.log(err);
-                } else {
-                    res.render ("comment/edit", {foundBlog: foundBlog, foundComment: foundComment});
-                }
-            });
-        }
-    });
-});
-
-//UPDATE COMMENT
-app.put ("/blogs/:id/comments/:commentId", function (req, res) {
-    Comment.findByIdAndUpdate (req.params.commentId, req.body, function (err) {
-        if(err) {
-            console.log(err); 
-        } else {
-            res.redirect ("/blogs/" + req.params.id);
-        }
-    });
-});
-
-//DELETE ROUTE
-app.delete ("/blogs/:id/comments/:commentId", function(req, res) {
-    Comment.findByIdAndRemove (req.params.commentId, function (err) {
-        if(err) {
-         console.log(err);
-        } else {
-            Blog.findById(req.params.id, function (err, foundBlog) {
-                if (err) {
-                    console.log(err);
-                } else {
-                    foundBlog.comments.remove(req.params.commentId); 
-                    foundBlog.save();
-                    res.redirect ("/blogs/" + req.params.id);
-                }
-            });
-        }
-    });
-});
-
-//ALL OTHER PATHS - REDIRECT
-app.get ("*", function(req, res) {
-    res.redirect ("/blogs");
-});
+app.use (indexRoutes);
+app.use (blogRoutes);
+app.use (commentRoutes);
 
 app.listen (process.env.PORT, process.env.IP, function() {
    console.log ("BlogApp has started!");

@@ -6,12 +6,20 @@
    	<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
    	<link rel="stylesheet" href="/stylesheets/main.css">
    </head>
+   
    <body>
       <div class="navbar navbar-fixed-top">
          <div class="navbar-header pull-left">
             <a class="navbar-brand" href="/blogs">Travel Blog <span class="glyphicon glyphicon-globe" aria-hidden="true"></span></a>
          </div>
-         <div class="navbar-header pull-right" id="addNewButton">
-            <a href="/blogs/new" class="btn btn-danger">New blog</a>
+         <div class="navbar-header pull-right" id="headerButtons">
+            <a href="/blogs/new" class="btn btn-success">New blog</a>
+            <% if (!currentUser) { %>
+               <a href="/register" class="btn btn-danger">Sign up</a>
+               <a href="/login" class="btn btn-danger">Login</a>
+            <% } else { %>
+               <a href="/logout" class="btn btn-danger">Logout</a>
+               <a id="currentUser_header"><strong>Hi <%= currentUser.username %>!</strong></a>
+            <% } %>
          </div>
       </div>

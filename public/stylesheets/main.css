@@ -15,10 +15,6 @@ hr {
 	margin-bottom: 0;
 }
 
-h4 {
-   text-decoration: underline;
-}
-
 .navbar-fixed-top {
    background-color: white;
    height: 70px;
@@ -63,15 +59,20 @@ h4 {
 }
 
 .well {
-   width: 500px;
-   margin-top: 20px;
+   width: 600px;
    max-width: 85%;
    float: none;
-   margin: 20px auto;
+   margin: 30px auto;
 }
 
 .commentText {
    margin-bottom: 10px;
+}
+
+.loginSignupForm {
+   width: 400px;
+   margin: 0 auto;
+   text-align: center; 
 }
 
 #blogDescription_showPage {
@@ -82,7 +83,7 @@ h4 {
    float: none;
 }
 
-#addNewButton {
+#headerButtons {
    padding-right: 25px;
    line-height: 70px;
 }
@@ -93,18 +94,20 @@ h4 {
    margin-top: 20px;
 }
 
-#signature_footer {
-   text-align: right;
-   margin-top: 20px;
-   margin-right: 10px;
-}
-
 #mainButtons_showPage {
    text-align: center;
 }
 
 #comment_showPage {
-   margin-top: 30px;
+   margin-top: 20px;
 }
 
+#currentUser_header {
+   text-decoration: none;
+   color: inherit;
+}
+
+#new_form {
+   margin-bottom: 20px;
+}
 

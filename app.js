@@ -18,7 +18,7 @@ var indexRoutes = require ("./routes/index");
 app.use(methodOverride('_method'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(expressSanitizer());
-mongoose.connect('mongodb://localhost/blogApp');
+mongoose.connect("mongodb://donsan:12donsan34@ds145230.mlab.com:45230/blog_app");
 app.set("view engine", "ejs");
 app.use (express.static(__dirname + "/public"));
 app.use(flash());

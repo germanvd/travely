@@ -75,6 +75,12 @@ hr {
    text-align: center; 
 }
 
+.alert {
+   width: 400px;
+   margin: 0 auto 20px auto;
+   text-align: center;
+}
+
 #blogDescription_showPage {
    width: 1000px;
    max-width: 85%;

@@ -23,3 +23,19 @@
             <% } %>
          </div>
       </div>
+      
+      <% if (success_messages && success_messages.length > 0) { %>
+         <div class="alert alert-success" role="alert">
+               <%= success_messages %>
+         </div>
+      <% } %>
+      
+      <% if (error_messages && error_messages.length > 0) { %>
+         <div class="alert alert-danger" role="alert">
+            <%= error_messages %>
+         </div>
+      <% } %>
+            
+         
+         
+         

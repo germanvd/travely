@@ -2,10 +2,11 @@ var express = require('express');
 var router = express.Router();
 var Blog = require ("../models/blog");
 var Comment = require ("../models/comment");
+var middleware = require ("../middleware");
 
 
 //NEW COMMENT
-router.get ("/blogs/:id/comments/new", isLoggedIn, function (req, res) {
+router.get ("/blogs/:id/comments/new", middleware.isLoggedIn, function (req, res) {
     Blog.findById (req.params.id, function (err, foundBlog) {
         if(err) {
             console.log (err);
@@ -30,6 +31,7 @@ router.post ("/blogs/:id/comments", function (req, res) {
                     newComment.save();
                     foundBlog.comments.push(newComment);
                     foundBlog.save();
+                    req.flash ("success", "You have created new comment!")
                     res.redirect ("/blogs/" + req.params.id);
                 }
             });
@@ -38,7 +40,7 @@ router.post ("/blogs/:id/comments", function (req, res) {
 });
 
 //EDIT COMMENT ROUTE
-router.get ("/blogs/:id/comments/:commentId/edit", function (req, res) {
+router.get ("/blogs/:id/comments/:commentId/edit", middleware.checkCommentOwnership, function (req, res) {
     Blog.findById(req.params.id, function(err, foundBlog) {
         if(err) {
             console.log(err);
@@ -55,18 +57,19 @@ router.get ("/blogs/:id/comments/:commentId/edit", function (req, res) {
 });
 
 //UPDATE COMMENT
-router.put ("/blogs/:id/comments/:commentId", function (req, res) {
+router.put ("/blogs/:id/comments/:commentId", middleware.checkCommentOwnership, function (req, res) {
     Comment.findByIdAndUpdate (req.params.commentId, req.body, function (err) {
         if(err) {
             console.log(err); 
         } else {
+            req.flash ("success", "Your comment has been updated!");
             res.redirect ("/blogs/" + req.params.id);
         }
     });
 });
 
 //DELETE ROUTE
-router.delete ("/blogs/:id/comments/:commentId", function(req, res) {
+router.delete ("/blogs/:id/comments/:commentId", middleware.checkCommentOwnership, function(req, res) {
     Comment.findByIdAndRemove (req.params.commentId, function (err) {
         if(err) {
          console.log(err);
@@ -77,19 +80,12 @@ router.delete ("/blogs/:id/comments/:commentId", function(req, res) {
                 } else {
                     foundBlog.comments.remove(req.params.commentId); 
                     foundBlog.save();
+                    req.flash ("success", "Your comment has been deleted!");
                     res.redirect ("/blogs/" + req.params.id);
                 }
             });
         }
     });
 });
-
-//middleware
-function isLoggedIn(req, res, next) {
-    if (req.isAuthenticated()) {
-        return next();
-    }
-    res.redirect ("/login");
-}
 
 module.exports = router;

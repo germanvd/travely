@@ -21,12 +21,14 @@ router.get ("/register", function (req, res) {
 router.post ("/register", function (req, res) {
     User.register (new User({username: req.body.username}), req.body.password, function (err, user) {
         if(err) {
-            console.log (err);
-            return res.render ("register");
-        } 
-        passport.authenticate ("local")(req, res, function() {
-        res.redirect("/blogs/new");
-        });
+            req.flash ("error", err.message);
+            res.redirect ("/register");
+        } else {
+            passport.authenticate ("local")(req, res, function() {
+                req.flash ("success", "Welcome on board :)");
+                res.redirect("/blogs");
+            });
+        }
     });
 });
 
@@ -38,14 +40,17 @@ router.get ("/login", function (req, res) {
 //HANDLING LOGIN
 router.post ("/login", passport.authenticate ("local", {
     successRedirect: "/blogs",
-    failureRedirect: "/login"
+    successFlash: "Welcome",
+    failureRedirect: "/login",
+    failureFlash: true
 }), function (req, res) {
 });
 
 //LOGOUT
 router.get ("/logout", function(req, res) {
+    req.flash("success", "You are logged out!");
     req.logout();
-    res.redirect("/");
+    res.redirect("/blogs");
 });
 
 module.exports = router;

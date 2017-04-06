@@ -37,11 +37,11 @@
             
             <% if(currentUser && comment.author.id.equals (currentUser.id)) { %>
                <div class="buttons_showPage">
-                  <a href="/blogs/<%= foundBlog._id %>/comments/<%= comment._id %>/edit" class="btn btn-danger btn-xs">Edit</a>
+                  <a href="/blogs/<%= foundBlog._id %>/comments/<%= comment._id %>/edit" class="btn btn-danger btn-sm">Edit</a>
                </div>
                <div class="buttons_showPage">
                   <form method="POST" action="/blogs/<%= foundBlog._id %>/comments/<%= comment._id %>?_method=DELETE">
-                     <button type="submit" class="btn btn-danger btn-xs">Delete</button>
+                     <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                   </form>
                </div>
             <% } %>

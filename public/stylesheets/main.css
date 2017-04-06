@@ -5,7 +5,7 @@ body {
 }
 
 h1 {
-   font-size: 3em;
+   font-size: 2.5em;
    font-weight: bold;
 }
 
@@ -17,16 +17,16 @@ hr {
 
 .navbar-fixed-top {
    background-color: white;
-   height: 70px;
+   height: 65px;
 }
 
-.navbar-brand {
+.navbar-default .navbar-brand {
 	font-size: 2em;
 	font-weight: bold;
 	color: black;
-	padding: 0 25px; 	
-	line-height: 70px;
+	padding: 0 25px; 
 	border: none;
+	line-height: 65px;
 }
 
 .nameImage_showPage {
@@ -36,6 +36,8 @@ hr {
 .thumbnails {
    float: none;
    margin: 0 auto;
+   width: 600px;
+   max-width: 95%;
 }
 
 .buttons_showPage {
@@ -49,7 +51,7 @@ hr {
 .form_center form {
    display: inline-block;
    width: 600px;
-   max-width: 90%;
+   max-width: 95%;
 }
 
 .form_mainTitle {
@@ -60,7 +62,7 @@ hr {
 
 .well {
    width: 600px;
-   max-width: 85%;
+   max-width: 95%;
    float: none;
    margin: 30px auto;
 }
@@ -69,34 +71,56 @@ hr {
    margin-bottom: 10px;
 }
 
-.loginSignupForm {
-   width: 400px;
+.loginSignupInputs {
+   width: 300px;
    margin: 0 auto;
-   text-align: center; 
+   max-width: 95%;
 }
 
 .alert {
    width: 400px;
+   max-width: 80%;
    margin: 0 auto 20px auto;
    text-align: center;
 }
 
+.navbar-collapse {
+   background-color: white;
+   border-top:none;
+   line-height: 65px;
+}
+
+.navbar-default .navbar-toggle {
+   margin-top: 15px;
+   margin-right: 25px;
+   border: black solid 2px;
+   background-color: transparent !important;
+}
+
+.navbar-toggle:hover {
+  background: #fcce50 !important;
+}
+
+.navbar-default .navbar-toggle .icon-bar {
+    background-color: black;
+}
+
+#headerButtons {
+   padding-right: 25px;
+   padding-left: 25px;
+}
+
 #blogDescription_showPage {
    width: 1000px;
-   max-width: 85%;
+   max-width: 95%;
    font-size: 1.1em;
    margin: 20px auto;
    float: none;
 }
 
-#headerButtons {
-   padding-right: 25px;
-   line-height: 70px;
-}
-
 #image_showPage {
    width: 600px;
-   max-width: 85%;
+   max-width: 95%;
    margin-top: 20px;
 }
 
@@ -109,11 +133,17 @@ hr {
 }
 
 #currentUser_header {
-   text-decoration: none;
    color: inherit;
+   line-height: 65px;
+   margin-right: 15px;
+   text-decoration: underline;
 }
 
 #new_form {
    margin-bottom: 20px;
+}
+
+#navbar_username {
+   line-height: 65px;
 }
 

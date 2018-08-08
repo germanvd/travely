@@ -1,3 +1,3 @@
 # travelBlogApp
-After finishing The Web Developer Bootcamp with Colt Steel at Udemy I have built this blog app by modelling Yelp Camp project from the bootcamp.
+Blog web app with ExpressJS, NodeJs & MongoDB
 https://resekblogapp.herokuapp.com/blogs

@@ -18,7 +18,7 @@ var indexRoutes = require ("./routes/index");
 app.use(methodOverride('_method'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(expressSanitizer());
-mongoose.connect("mongodb://donsan:12donsan34@ds145230.mlab.com:45230/blog_app");
+mongoose.connect("mongodb://localhost:27017/blog_app");
 app.set("view engine", "ejs");
 app.use (express.static(__dirname + "/public"));
 app.use(flash());
@@ -46,6 +46,8 @@ app.use (indexRoutes);
 app.use (blogRoutes);
 app.use (commentRoutes);
 
-app.listen (process.env.PORT, process.env.IP, function() {
+app.set('port', process.env.PORT || 80);
+
+app.listen (process.env.PORT|| 80, function() {
    console.log ("BlogApp has started!");
 });

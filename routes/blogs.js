@@ -69,7 +69,7 @@ router.put ("/blogs/:id", middleware.checkCampgroundOwnership, function (req, re
       if(err) {
          console.log(err); 
       } else {
-         req.flash ("success", "You have updated your blog post!")
+         req.flash ("success", "Has actualizado tu blog!")
          res.redirect ("/blogs/" + id);
       }
    });
